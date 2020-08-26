@@ -1,0 +1,87 @@
+CREATE SCHEMA IF NOT EXISTS SistemaVentas;
+
+USE SistemaVentas;
+
+CREATE TABLE IF NOT EXISTS VENDEDOR (
+	ID INT NOT NULL AUTO_INCREMENT,
+	DPI INT(10) NOT NULL,
+	nombreVendedor VARCHAR(45) NOT NULL,
+	apellidoVendedor VARCHAR(45) NOT NULL,
+	telefonoVendedor VARCHAR(8),
+	usuarioVendedor VARCHAR(10) NOT NULL,
+	PRIMARY KEY(ID) 
+);
+
+CREATE TABLE IF NOT EXISTS TIENDA(
+	codigoT VARCHAR(20) NOT NULL,
+	nombreTienda VARCHAR(45) NOT NULL,
+	direccionTienda VARCHAR(20) NOT NULL,
+	telefonoTienda VARCHAR(8),
+	idVendedor INT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY(codigoT),
+	FOREIGN KEY (idVendedor) REFERENCES VENDEDOR(ID)
+
+);
+
+
+CREATE TABLE IF NOT EXISTS PRODUCTO(
+	codigoPr VARCHAR(20) NOT NULL,
+	nombreProducto VARCHAR(45) NOT NULL,
+	fabricante VARCHAR(45) NOT NULL,
+	cantidadExistente INT(200) NOT NULL,
+	precio VARCHAR(45) NOT NULL,
+	codigoTienda VARCHAR(20) NOT NULL,
+	PRIMARY KEY(codigoPr),
+	FOREIGN KEY(codigoTienda) REFERENCES TIENDA(codigoT)
+);
+
+CREATE TABLE IF NOT EXISTS CLIENTE (
+	NITCliente VARCHAR(10) NOT NULL,
+	nombreCliente VARCHAR(45) NOT NULL,
+	apellidoCliente VARCHAR(45) NOT NULL,
+	telefonoCliente VARCHAR(8),
+	DPI VARCHAR(45) NOT NULL,
+	Credito INT(200) NOT NULL,
+	Correo VARCHAR(45) NOT NULL,
+	direccionCliente VARCHAR(45) NOT NULL,
+	PRIMARY KEY(NITCliente)
+
+);
+
+CREATE TABLE IF NOT EXISTS PEDIDOS (
+	codigoPedido VARCHAR(20) NOT NULL,
+	fechaPedido DATE NOT NULL,
+	fechaEntrega DATE NOT NULL,
+	estado INT(1) NOT NULL,
+	cantidad INT(200),
+	CodigoTienda1 VARCHAR(20),
+	codigoProducto VARCHAR(20),
+	cliente VARCHAR(10),
+	PRIMARY KEY(codigoPedido),
+	FOREIGN KEY(CodigoTienda1) REFERENCES TIENDA(codigoT),
+	FOREIGN KEY (codigoProducto) REFERENCES PRODUCTO(codigoPr),
+	FOREIGN KEY(cliente) REFERENCES CLIENTE(NITCliente)
+
+); 
+
+CREATE TABLE IF NOT EXISTS DETALLE_PEDIDOS (
+	codigoPedido VARCHAR(20) NOT NULL,
+	codigoProducto VARCHAR(20) NOT NULL,
+	cantidad VARCHAR(200) NOT NULL,
+	precioUnidad VARCHAR(200) NOT NULL,
+	precioTotal VARCHAR(200) NOT NULL,
+	PRIMARY KEY(codigoPedido),
+	FOREIGN KEY(codigoProducto) REFERENCES PRODUCTO(codigoPr)
+);
+
+
+
+
+
+
+
+
+
+
+
+
